@@ -1,7 +1,10 @@
 
 var score = 0;
+var stars;
 var scoreText;
 var soundFx = {};
+var w = 300
+    , h = 500;
 
 var Jumper = function() {};
 Jumper.Play = function() {};
@@ -13,7 +16,7 @@ Jumper.Play.prototype = {
     //IMAGES
     this.load.image( 'hero', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/dude.png' );
     this.load.image( 'pixel', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/pixel_1.png' );
-    this.load.image( 'boost', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
+    this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
 
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
@@ -55,8 +58,38 @@ Jumper.Play.prototype = {
     scoreText = game.add.text(16, 16, 'score: 0', { font: '14px Arial', fill: '#FFF' });
     scoreText.fixedToCamera = true;
 
+    //set game.paused = false to prevent bugs 
+
+    //
+    escKey = this.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    escKey.onDown.add(this.pause, this);
+
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
+  },
+
+  pause: function() { 
+    if (game.paused === false) {
+      //pause the game
+      game.paused = true;
+
+      //add a text as a menu
+      resume = game.add.text(150, 250, 'Voltar ao Jogo', {font: '14px Arial', fill: '#FFF'});
+      resume.fixedToCamera = true;
+      resume.inputEnabled = true;
+      resume.anchor.setTo(0.5, 0.5);
+
+      game.input.onDown.add(function(){
+        resume.destroy();
+        game.paused = false;
+      }, self);
+
+
+    }else{
+      resume.destroy();
+      game.paused = false;
+    }
+
   },
 
   update: function() {
@@ -70,12 +103,18 @@ Jumper.Play.prototype = {
     this.cameraYMin = Math.min( this.cameraYMin, this.hero.y - this.game.height + 130 );
     this.camera.y = this.cameraYMin;
 
+    //setting the current score to maximum y hero travelled / 3
     score = parseInt(Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) )/3 ); ;
     scoreText.text = 'Score: ' + score;
 
     // hero collisions and movement
     this.physics.arcade.collide( this.hero, this.platforms );
     this.heroMove();
+
+    stars = game.add.group();
+
+    //  We will enable physics for any star that is created in this group
+    stars.enableBody = true;
 
     // for each plat form, find out which is the highest
     // if one goes below the camera view, then create a new one at a distance from the highest one
@@ -169,12 +208,22 @@ Jumper.Play.prototype = {
     
     // if the hero falls below the camera view, gameover
     if( this.hero.y > this.cameraYMin + this.game.height && this.hero.alive ) {
-      soundFx.die.play();
       this.state.start( 'Play' );
     }
   }
 }
 
-var game = new Phaser.Game( 300, 500, Phaser.CANVAS, '' );
+// Jumper.Play.BootLoader.prototype = {
+//   create: function() {
+//     this.stage.backgroundColor = '#000';
+//     this.add.text(150, 250, 'Loading...', { font: '14px Arial', fill: '#FFF' });
+    
+//   }
+// }
+
+
+var game = new Phaser.Game( w, h, Phaser.CANVAS, '' );
+// game.state.add( 'BootLoader', Jumper.Play.BootLoader );
 game.state.add( 'Play', Jumper.Play );
+// game.state.start( 'BootLoader' );
 game.state.start( 'Play' );
