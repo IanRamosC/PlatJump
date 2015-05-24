@@ -1,10 +1,9 @@
-
-var score = 0;
-var stars;
-var scoreText;
-var soundFx = {};
-var w = 300
-    , h = 500;
+var score = 0
+  , stars
+  , scoreText
+  , soundFx = {}
+  , w = 300
+  , h = 500;
 
 var Jumper = function() {};
 Jumper.Play = function() {};
@@ -58,7 +57,12 @@ Jumper.Play.prototype = {
     scoreText = game.add.text(16, 16, 'score: 0', { font: '14px Arial', fill: '#FFF' });
     scoreText.fixedToCamera = true;
 
-    //set game.paused = false to prevent bugs 
+    //setting pause text
+    resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', {font: '14px Arial', fill: '#FFF'});
+    resume.anchor.setTo(0.5, 0.5);
+    resume.fixedToCamera = true;
+    resume.inputEnabled = true;
+    resume.visible = false;
 
     //
     escKey = this.input.keyboard.addKey(Phaser.Keyboard.ESC);
@@ -68,26 +72,21 @@ Jumper.Play.prototype = {
     this.cursor = this.input.keyboard.createCursorKeys();
   },
 
-  pause: function() { 
+  pause: function() {
     if (game.paused === false) {
       //pause the game
       game.paused = true;
-
-      //add a text as a menu
-      resume = game.add.text(150, 250, 'Voltar ao Jogo', {font: '14px Arial', fill: '#FFF'});
-      resume.fixedToCamera = true;
-      resume.inputEnabled = true;
-      resume.anchor.setTo(0.5, 0.5);
+      resume.visible = true;
 
       game.input.onDown.add(function(){
-        resume.destroy();
         game.paused = false;
+        resume.visible = false;
       }, self);
 
 
     }else{
-      resume.destroy();
       game.paused = false;
+      resume.visible = false;
     }
 
   },
@@ -223,7 +222,5 @@ Jumper.Play.prototype = {
 
 
 var game = new Phaser.Game( w, h, Phaser.CANVAS, '' );
-// game.state.add( 'BootLoader', Jumper.Play.BootLoader );
 game.state.add( 'Play', Jumper.Play );
-// game.state.start( 'BootLoader' );
 game.state.start( 'Play' );
