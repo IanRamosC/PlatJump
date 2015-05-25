@@ -16,6 +16,7 @@ Jumper.Play.prototype = {
     this.load.image( 'hero', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/dude.png' );
     this.load.image( 'pixel', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/pixel_1.png' );
     this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
+    this.load.image( 'bg', '../assets/img/bg.png');
 
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
@@ -24,7 +25,8 @@ Jumper.Play.prototype = {
 
   create: function() {
     // background color
-    this.stage.backgroundColor = '#299100';
+    bg = this.add.image(0, 0, 'bg');
+    bg.fixedToCamera = true;
 
     soundFx.jump = this.add.audio('jump');
     soundFx.die = this.add.audio('die');
