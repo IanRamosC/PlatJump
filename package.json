@@ -1,0 +1,19 @@
+{
+  "name": "PlatJumper",
+  "version": "0.1.0-beta",
+  "description": "A game developed with phaserjs",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ianramosc/PlatJump.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianramosc/PlatJump/issues"
+  },
+  "homepage": "https://github.com/ianramosc/PlatJump"
+}
