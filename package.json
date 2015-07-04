@@ -4,6 +4,7 @@
   "description": "A game developed with phaserjs",
   "main": "index.html",
   "scripts": {
+    "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ianramosc/PlatJump/issues"
   },
-  "homepage": "https://github.com/ianramosc/PlatJump"
+  "homepage": "https://github.com/ianramosc/PlatJump",
+  "devDependencies": {
+    "http-server": "^0.8.0"
+  }
 }
