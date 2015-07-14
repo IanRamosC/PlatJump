@@ -16,7 +16,7 @@ Jumper.Play.prototype = {
     this.load.image( 'hero', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/dude.png' );
     this.load.image( 'pixel', 'http://orig14.deviantart.net/f460/f/2014/268/6/7/minecraft_grass_block_simple_pixel_art_by_flamemakespixelart-d80h4uj.png' );
     this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
-    this.load.image( 'bg', '../assets/img/bg.png');
+    this.load.image( 'bg', 'assets/img/bg.png');
 
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
