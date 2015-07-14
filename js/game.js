@@ -106,7 +106,7 @@ Jumper.Play.prototype = {
     this.camera.y = this.cameraYMin;
 
     //setting the current score to maximum y hero travelled / 3
-    score = parseInt(Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) )/3 ); ;
+    score = parseInt(Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) )/3 );
     scoreText.text = 'Score: ' + score;
 
     // hero collisions and movement
