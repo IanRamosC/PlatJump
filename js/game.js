@@ -14,7 +14,7 @@ Jumper.Play.prototype = {
 
     //IMAGES
     this.load.image( 'hero', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/dude.png' );
-    this.load.image( 'pixel', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/pixel_1.png' );
+    this.load.image( 'pixel', 'http://orig14.deviantart.net/f460/f/2014/268/6/7/minecraft_grass_block_simple_pixel_art_by_flamemakespixelart-d80h4uj.png' );
     this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
     this.load.image( 'bg', '../assets/img/bg.png');
 
@@ -56,12 +56,13 @@ Jumper.Play.prototype = {
     this.hero.movingUp = false;
 
     //setting score text
-    scoreText = game.add.text(16, 16, 'score: 0', { font: '14px Arial', fill: '#FFF' });
+    var textStyle = { font: '14px Arial', fill: '#FFF', stroke: '#444', strokeThickness: 6 };
+    scoreText = game.add.text(10, 10, '', textStyle);
     scoreText.fixedToCamera = true;
 
     //setting pause text
-    resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', {font: '14px Arial', fill: '#FFF'});
-    resume.anchor.setTo(0.5, 0.5);
+    resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', textStyle);
+    resume.anchor.setTo(0.5);
     resume.fixedToCamera = true;
     resume.inputEnabled = true;
     resume.visible = false;
@@ -124,7 +125,7 @@ Jumper.Play.prototype = {
       this.platformYMin = Math.min( this.platformYMin, elem.y );
       if( elem.y > this.camera.y + this.game.height ) {
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 50 );
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 2 );
       }
     }, this );
   },
@@ -150,7 +151,7 @@ Jumper.Play.prototype = {
     this.platformsCreateOne( -16, this.world.height - 16, this.world.width + 16 );
     // create a batch of platforms that start to move up the level
     for( var i = 0; i < 9; i++ ) {
-      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 50 );
+      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 2 );
     }
   },
 
@@ -159,7 +160,7 @@ Jumper.Play.prototype = {
     var platform = this.platforms.getFirstDead();
     platform.reset( x, y );
     platform.scale.x = width;
-    platform.scale.y = 16;
+    platform.scale.y = 0.5;
     platform.body.immovable = true;
     return platform;
   },

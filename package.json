@@ -4,6 +4,7 @@
   "description": "A game developed with phaserjs",
   "main": "index.html",
   "scripts": {
+    "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
