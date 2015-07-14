@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/ianramosc/PlatJump/issues"
   },
-  "homepage": "https://github.com/ianramosc/PlatJump"
+
+  "homepage": "https://github.com/ianramosc/PlatJump",
+  "devDependencies": {
+    "http-server": "*"
+  }
 }
