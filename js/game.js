@@ -16,11 +16,12 @@ Jumper.Play.prototype = {
   preload: function() {
 
     //IMAGES
-    this.load.image( 'hero', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/dude.png' );
-    this.load.image( 'pixel', 'http://orig14.deviantart.net/f460/f/2014/268/6/7/minecraft_grass_block_simple_pixel_art_by_flamemakespixelart-d80h4uj.png' );
-    this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
     this.load.image( 'bg', 'assets/img/bg.png');
-
+    this.load.image( 'sky_gradient', 'assets/img/sky_gradient.png');
+    this.load.image( 'floor', 'assets/img/floor.png' );
+    this.load.image( 'floor_air', 'assets/img/floor_air.png' );
+    this.load.image( 'libi', 'assets/img/libi.png' );
+    this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
     this.load.audio('die', 'assets/audio/SoundEffects/die.wav');
@@ -118,10 +119,10 @@ Jumper.Play.prototype = {
     this.physics.arcade.collide( this.hero, this.platforms );
     this.heroMove();
 
-    stars = game.add.group();
+/*    stars = game.add.group();
 
     //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
+    stars.enableBody = true;*/
 
     // for each plat form, find out which is the highest
     // if one goes below the camera view, then create a new one at a distance from the highest one
@@ -130,7 +131,7 @@ Jumper.Play.prototype = {
       this.platformYMin = Math.min( this.platformYMin, elem.y );
       if( elem.y > this.camera.y + this.game.height ) {
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 2 );
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 0.5 );
       }
     }, this );
   },
@@ -150,30 +151,37 @@ Jumper.Play.prototype = {
     // platform basic setup
     this.platforms = this.add.group();
     this.platforms.enableBody = true;
-    this.platforms.createMultiple( 10, 'pixel' );
+    this.platforms.createMultiple( 10, 'floor_air' );
 
     // create the base platform, with buffer on either side so that the hero doesn't fall through
-    this.platformsCreateOne( -16, this.world.height - 16, this.world.width + 16 );
+    this.platformBaseCreate(0, this.world.height - 30, 'floor');
     // create a batch of platforms that start to move up the level
     for( var i = 0; i < 9; i++ ) {
-      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 2 );
+      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 0.5 );
     }
   },
-
+  platformBaseCreate: function (x, y, key) {
+    var base = this.platforms.create(x, y, key);
+    base.reset( x, y );
+    base.scale.x = 1;
+    base.scale.y = 1;
+    base.body.immovable = true;
+    return base;
+  },
   platformsCreateOne: function( x, y, width ) {
     // this is a helper function since writing all of this out can get verbose elsewhere
     var platform = this.platforms.getFirstDead();
     platform.reset( x, y );
     platform.scale.x = width;
-    platform.scale.y = 0.5;
+    platform.scale.y = 0.8;
     platform.body.immovable = true;
     return platform;
   },
 
   heroCreate: function() {
     // basic hero setup
-    this.hero = game.add.sprite( this.world.centerX, this.world.height - 36, 'hero' );
-    this.hero.anchor.set( 0.5 );
+    this.hero = game.add.sprite( this.world.centerX, this.world.height - 27, 'libi' );
+    this.hero.anchor.set( 0.5, 1 );
 
     // track where the hero started and how much the distance has changed from that point
     this.hero.yOrig = this.hero.y;
@@ -227,7 +235,6 @@ Jumper.Play.prototype = {
 
 //   }
 // }
-
 
 var game = new Phaser.Game( w, h, Phaser.CANVAS, '' );
 game.state.add( 'Play', Jumper.Play );
