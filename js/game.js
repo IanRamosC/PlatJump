@@ -154,7 +154,7 @@ Jumper.Play.prototype = {
     this.platforms.createMultiple( 10, 'floor_air' );
 
     // create the base platform, with buffer on either side so that the hero doesn't fall through
-    this.platformBaseCreate(0, this.world.height - 30, 'floor');
+    this.platformBaseCreate(0, this.world.height - 45, 'floor');
     // create a batch of platforms that start to move up the level
     for( var i = 0; i < 9; i++ ) {
       this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 0.5 );
@@ -180,7 +180,7 @@ Jumper.Play.prototype = {
 
   heroCreate: function() {
     // basic hero setup
-    this.hero = game.add.sprite( this.world.centerX, this.world.height - 27, 'libi' );
+    this.hero = game.add.sprite( this.world.centerX, this.world.height - 50, 'libi' );
     this.hero.anchor.set( 0.5, 1 );
 
     // track where the hero started and how much the distance has changed from that point
