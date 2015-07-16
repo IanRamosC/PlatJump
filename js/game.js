@@ -112,7 +112,7 @@ Jumper.Play.prototype = {
     this.camera.y = this.cameraYMin;
 
     //setting the current score to maximum y hero travelled / 3
-    score = parseInt(Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) )/3 );
+    score = this.getScore();
     scoreText.text = 'Score: ' + score;
 
     // hero collisions and movement
@@ -131,7 +131,7 @@ Jumper.Play.prototype = {
       this.platformYMin = Math.min( this.platformYMin, elem.y );
       if( elem.y > this.camera.y + this.game.height ) {
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 0.5 );
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 110, 0.5 );
       }
     }, this );
   },
@@ -146,18 +146,28 @@ Jumper.Play.prototype = {
     this.platforms = null;
     alert("Você perdeu! Score: " + score);
   },
-
+  getScore: function() {
+    if (this.hero.movingUp === false) {
+      return 0;
+    } else {
+      return parseInt(Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) - 50 )/4 );
+    }
+  },
   platformsCreate: function() {
     // platform basic setup
     this.platforms = this.add.group();
     this.platforms.enableBody = true;
-    this.platforms.createMultiple( 10, 'floor_air' );
+    this.platforms.createMultiple( 8, 'floor_air' );
 
     // create the base platform, with buffer on either side so that the hero doesn't fall through
     this.platformBaseCreate(0, this.world.height - 45, 'floor');
     // create a batch of platforms that start to move up the level
-    for( var i = 0; i < 9; i++ ) {
-      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 0.5 );
+    for( var i = 0; i < 7; i++ ) {
+      if (i === 0) {
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 160 - 110 * i, 0.5 );
+      } else {
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), (this.world.height - 110 - 110 * i) - 60, 0.5 );
+      }
     }
   },
   platformBaseCreate: function (x, y, key) {
@@ -212,11 +222,11 @@ Jumper.Play.prototype = {
     }
     if( this.hero.movingUp === true && this.hero.body.touching.down ) {
       soundFx.jump.play();
-      this.hero.body.velocity.y = -350;
+      this.hero.body.velocity.y = -370;
     }
 
     // wrap world coordinated so that you can warp from left to right and right to left
-    this.world.wrap( this.hero, this.hero.width / 8, false );
+    this.world.wrap( this.hero, this.hero.width / 16, false );
 
     // track the maximum amount that the hero has travelled
     this.hero.yChange = Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) );
