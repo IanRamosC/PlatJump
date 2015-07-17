@@ -11,8 +11,40 @@ var score = 0
   , h = 500;
 
 var Jumper = function() {};
+Jumper.Start = function() {};
 Jumper.Play = function() {};
-Jumper.Gameover = function () {};
+Jumper.Gameover = function() {};
+
+Jumper.Start.prototype = {
+  preload: function() {
+    this.load.image('play', 'assets/img/play.png');
+    this.load.image('bg', 'assets/img/bg.png');
+    this.load.image('logo', 'assets/img/logo.png');
+  },
+  create: function() {
+    bg = this.add.image(0, 0, 'bg');
+    var playButton = game.add.button(game.world.width/2, game.world.height/2, 'play', this.shutdown, this);
+    playButton.input.useHandCursor = true;
+    playButton.scale.setTo(0.3);
+    playButton.anchor.setTo(0.5);
+    var logo = this.add.image(game.world.width/2, 100, 'logo');
+    logo.scale.setTo(0.5);
+    logo.anchor.setTo(0.5);
+
+    // scaling
+    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    if(isMobile === false) {
+      this.scale.maxWidth = this.game.width;
+      this.scale.maxHeight = this.game.height;
+    }
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVertically = true;
+    this.scale.setScreenSize( true );
+  },
+  shutdown: function() {
+    game.state.start( 'Play' );
+  }
+}
 
 Jumper.Play.prototype = {
 
@@ -37,16 +69,6 @@ Jumper.Play.prototype = {
     soundFx.die = this.add.audio('die');
 
     game.time.advancedTiming = true
-
-    // scaling
-    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    if(isMobile === false) {
-      this.scale.maxWidth = this.game.width;
-      this.scale.maxHeight = this.game.height;
-    }
-    this.scale.pageAlignHorizontally = true;
-    this.scale.pageAlignVertically = true;
-    this.scale.setScreenSize( true );
 
     // physics
     this.physics.startSystem( Phaser.Physics.ARCADE );
@@ -74,7 +96,7 @@ Jumper.Play.prototype = {
     fps.fixedToCamera = true;
 
     //setting pause text
-    resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', textStyle);
+    resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', { font: '26px Arial', fill: '#FFF', stroke: '#444', strokeThickness: 6 });
     resume.anchor.setTo(0.5);
     resume.fixedToCamera = true;
     resume.inputEnabled = true;
@@ -271,16 +293,8 @@ Jumper.Gameover.prototype = {
   }
 }
 
-
-// Jumper.Play.BootLoader.prototype = {
-//   create: function() {
-//     this.stage.backgroundColor = '#000';
-//     this.add.text(150, 250, 'Loading...', { font: '14px Arial', fill: '#FFF' });
-
-//   }
-// }
-
-var game = new Phaser.Game( w, h, Phaser.CANVAS, '' );
+var game = new Phaser.Game( w, h, Phaser.CANVAS, 'game' );
+game.state.add( 'Start', Jumper.Start )
 game.state.add( 'Play', Jumper.Play );
 game.state.add( 'Gameover', Jumper.Gameover );
-game.state.start( 'Play' );
+game.state.start( 'Start' );
