@@ -4,12 +4,15 @@ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine
 var score = 0
   , stars
   , scoreText
+  , highscore
+  , fps
   , soundFx = {}
   , w = 300
   , h = 500;
 
 var Jumper = function() {};
 Jumper.Play = function() {};
+Jumper.Gameover = function () {};
 
 Jumper.Play.prototype = {
 
@@ -21,12 +24,10 @@ Jumper.Play.prototype = {
     this.load.image( 'floor', 'assets/img/floor.png' );
     this.load.image( 'floor_air', 'assets/img/floor_air.png' );
     this.load.image( 'libi', 'assets/img/libi.png' );
-    this.load.image( 'star', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Farm-Fresh_star.png');
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
     this.load.audio('die', 'assets/audio/SoundEffects/die.wav');
   },
-
   create: function() {
     // background color
     bg = this.add.image(0, 0, 'bg');
@@ -34,6 +35,8 @@ Jumper.Play.prototype = {
 
     soundFx.jump = this.add.audio('jump');
     soundFx.die = this.add.audio('die');
+
+    game.time.advancedTiming = true
 
     // scaling
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -66,6 +69,10 @@ Jumper.Play.prototype = {
     scoreText = game.add.text(10, 10, '', textStyle);
     scoreText.fixedToCamera = true;
 
+    //creating fps debug version
+    fps = game.add.text(250, 10, '', { font: '12px Arial', fill: '#0F0' });
+    fps.fixedToCamera = true;
+
     //setting pause text
     resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', textStyle);
     resume.anchor.setTo(0.5);
@@ -80,7 +87,6 @@ Jumper.Play.prototype = {
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
   },
-
   pause: function() {
     if (game.paused === false) {
       //pause the game
@@ -99,7 +105,6 @@ Jumper.Play.prototype = {
     }
 
   },
-
   update: function() {
     // this is where the main magic happens
     // the y offset and the height of the world are adjusted
@@ -134,8 +139,9 @@ Jumper.Play.prototype = {
         this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 110, 0.5 );
       }
     }, this );
-  },
 
+    fps.text = 'FPS: ' + game.time.fps;
+  },
   shutdown: function() {
     // reset everything, or the world will be messed up
     this.world.setBounds( 0, 0, this.game.width, this.game.height );
@@ -144,7 +150,6 @@ Jumper.Play.prototype = {
     this.hero = null;
     this.platforms.destroy();
     this.platforms = null;
-    alert("Você perdeu! Score: " + score);
   },
   getScore: function() {
     if (this.hero.movingUp === false) {
@@ -187,11 +192,11 @@ Jumper.Play.prototype = {
     platform.body.immovable = true;
     return platform;
   },
-
   heroCreate: function() {
     // basic hero setup
     this.hero = game.add.sprite( this.world.centerX, this.world.height - 50, 'libi' );
     this.hero.anchor.set( 0.5, 1 );
+    this.hero.scale.y = 1.3;
 
     // track where the hero started and how much the distance has changed from that point
     this.hero.yOrig = this.hero.y;
@@ -205,7 +210,6 @@ Jumper.Play.prototype = {
     this.hero.body.checkCollision.left = false;
     this.hero.body.checkCollision.right = false;
   },
-
   heroMove: function() {
     // handle the left and right movement of the hero
     if( this.cursor.left.isDown || (this.input.pointer1.x < 150 && this.input.pointer1.isDown)) {
@@ -233,10 +237,38 @@ Jumper.Play.prototype = {
 
     // if the hero falls below the camera view, gameover
     if( this.hero.y > this.cameraYMin + this.game.height && this.hero.alive ) {
-      this.state.start( 'Play' );
+      this.state.start( 'Gameover' );
     }
   }
 }
+Jumper.Gameover.prototype = {
+  preload: function() {
+    this.load.image('playAgain', 'assets/img/restart.png');
+  },
+  create: function() {
+    this.stage.backgroundColor = '#0A1F38';
+    if (!!localStorage) {
+      highscore = localStorage.getItem('highscore');
+
+      if(!highscore || highscore < score) {
+        highscore = score;
+        localStorage.setItem('highscore', highscore);
+      }
+    } else {
+      highscore = "0";
+    }
+    var highscoreText = game.add.text(this.world.width/2, 100, 'Highscore: ' + highscore, {font: '20px Arial', fill: '#FFF'});
+    highscoreText.anchor.setTo(0.5);
+    var playAgain = game.add.button(this.world.width/2, this.world.height/2, 'playAgain', this.shutdown, this);
+    playAgain.input.useHandCursor = true;
+    playAgain.scale.setTo(0.3);
+    playAgain.anchor.setTo(0.5);
+  },
+  shutdown: function() {
+    game.state.start( 'Play' );
+  }
+}
+
 
 // Jumper.Play.BootLoader.prototype = {
 //   create: function() {
@@ -248,4 +280,5 @@ Jumper.Play.prototype = {
 
 var game = new Phaser.Game( w, h, Phaser.CANVAS, '' );
 game.state.add( 'Play', Jumper.Play );
+game.state.add( 'Gameover', Jumper.Gameover );
 game.state.start( 'Play' );
