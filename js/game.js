@@ -70,7 +70,7 @@ Jumper.Play.prototype = {
     scoreText.fixedToCamera = true;
 
     //creating fps debug version
-    fps = game.add.text(250, 10, '', { font: '12px Arial', fill: '#0F0' });
+    fps = game.add.text(254, 2, '', { font: '12px Arial', fill: '#0F0' });
     fps.fixedToCamera = true;
 
     //setting pause text
