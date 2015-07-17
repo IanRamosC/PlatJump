@@ -1,0 +1,28 @@
+body {
+	margin: 0;
+}
+
+/*   ELEMENTS   */
+.msg {
+	color: #EEE;
+	display: block;
+	margin: 12px;
+	padding: 12px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+}
+.warning {
+	background-color: #c0392b;
+}
+@media screen and (orientation: portrait) {
+	.msg {
+		display: none;
+	}
+}
+@media screen and (orientation: landscape) {
+	canvas {
+		display: none;
+	}
+}
