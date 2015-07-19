@@ -39,10 +39,10 @@ Jumper.Start.prototype = {
     }
     this.scale.pageAlignHorizontally = true;
     this.scale.pageAlignVertically = true;
-    this.scale.setScreenSize( true );
+    this.scale.setScreenSize(true);
   },
   shutdown: function() {
-    game.state.start( 'Play' );
+    game.state.start('Play');
   }
 }
 
@@ -51,11 +51,11 @@ Jumper.Play.prototype = {
   preload: function() {
 
     //IMAGES
-    this.load.image( 'bg', 'assets/img/bg.png');
-    this.load.image( 'sky_gradient', 'assets/img/sky_gradient.png');
-    this.load.image( 'floor', 'assets/img/floor.png' );
-    this.load.image( 'floor_air', 'assets/img/floor_air.png' );
-    this.load.image( 'libi', 'assets/img/libi.png' );
+    this.load.image('bg', 'assets/img/bg.png');
+    this.load.image('sky_gradient', 'assets/img/sky_gradient.png');
+    this.load.image('floor', 'assets/img/floor.png' );
+    this.load.image('floor_air', 'assets/img/floor_air.png' );
+    this.load.image('libi', 'assets/img/libi.png' );
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
     this.load.audio('die', 'assets/audio/SoundEffects/die.wav');
@@ -71,7 +71,7 @@ Jumper.Play.prototype = {
     game.time.advancedTiming = true
 
     // physics
-    this.physics.startSystem( Phaser.Physics.ARCADE );
+    this.physics.startSystem(Phaser.Physics.ARCADE);
 
     // camera and platform tracking vars
     this.cameraYMin = 99999;
@@ -110,7 +110,7 @@ Jumper.Play.prototype = {
     this.cursor = this.input.keyboard.createCursorKeys();
   },
   pause: function() {
-    if (game.paused === false) {
+    if(game.paused === false) {
       //pause the game
       game.paused = true;
       resume.visible = true;
@@ -121,7 +121,7 @@ Jumper.Play.prototype = {
       }, self);
 
 
-    }else{
+    } else {
       game.paused = false;
       resume.visible = false;
     }
@@ -131,11 +131,11 @@ Jumper.Play.prototype = {
     // this is where the main magic happens
     // the y offset and the height of the world are adjusted
     // to match the highest point the hero has reached
-    this.world.setBounds( 0, -this.hero.yChange, this.world.width, this.game.height + this.hero.yChange );
+    this.world.setBounds(0, -this.hero.yChange, this.world.width, this.game.height + this.hero.yChange);
 
     // the built in camera follow methods won't work for our needs
     // this is a custom follow style that will not ever move down, it only moves up
-    this.cameraYMin = Math.min( this.cameraYMin, this.hero.y - this.game.height + 130 );
+    this.cameraYMin = Math.min(this.cameraYMin, this.hero.y - this.game.height + 130);
     this.camera.y = this.cameraYMin;
 
     //setting the current score to maximum y hero travelled / 3
@@ -143,7 +143,7 @@ Jumper.Play.prototype = {
     scoreText.text = 'Score: ' + score;
 
     // hero collisions and movement
-    this.physics.arcade.collide( this.hero, this.platforms );
+    this.physics.arcade.collide(this.hero, this.platforms);
     this.heroMove();
 
 /*    stars = game.add.group();
@@ -154,19 +154,19 @@ Jumper.Play.prototype = {
     // for each plat form, find out which is the highest
     // if one goes below the camera view, then create a new one at a distance from the highest one
     // these are pooled so they are very performant
-    this.platforms.forEachAlive( function( elem ) {
-      this.platformYMin = Math.min( this.platformYMin, elem.y );
-      if( elem.y > this.camera.y + this.game.height ) {
+    this.platforms.forEachAlive(function(elem) {
+      this.platformYMin = Math.min(this.platformYMin, elem.y);
+      if(elem.y > this.camera.y + this.game.height) {
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 110, 0.5 );
+        this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.platformYMin - 110, 0.5);
       }
-    }, this );
+    }, this);
 
     fps.text = 'FPS: ' + game.time.fps;
   },
   shutdown: function() {
     // reset everything, or the world will be messed up
-    this.world.setBounds( 0, 0, this.game.width, this.game.height );
+    this.world.setBounds(0, 0, this.game.width, this.game.height);
     this.cursor = null;
     this.hero.destroy();
     this.hero = null;
@@ -177,23 +177,23 @@ Jumper.Play.prototype = {
     if (this.hero.movingUp === false) {
       return 0;
     } else {
-      return parseInt(Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) - 50 )/4 );
+      return parseInt(Math.max( this.hero.yChange, Math.abs(this.hero.y - this.hero.yOrig) - 50 )/4);
     }
   },
   platformsCreate: function() {
     // platform basic setup
     this.platforms = this.add.group();
     this.platforms.enableBody = true;
-    this.platforms.createMultiple( 8, 'floor_air' );
+    this.platforms.createMultiple(8, 'floor_air');
 
     // create the base platform, with buffer on either side so that the hero doesn't fall through
     this.platformBaseCreate(0, this.world.height - 45, 'floor');
     // create a batch of platforms that start to move up the level
-    for( var i = 0; i < 7; i++ ) {
+    for(var i = 0; i < 7; i++) {
       if (i === 0) {
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 160 - 110 * i, 0.5 );
+        this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.world.height - 160 - 110 * i, 0.5);
       } else {
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), (this.world.height - 110 - 110 * i) - 60, 0.5 );
+        this.platformsCreateOne( his.rnd.integerInRange(0, this.world.width - 50), (this.world.height - 110 - 110 * i) - 60, 0.5);
       }
     }
   },
@@ -205,10 +205,10 @@ Jumper.Play.prototype = {
     base.body.immovable = true;
     return base;
   },
-  platformsCreateOne: function( x, y, width ) {
+  platformsCreateOne: function(x, y, width) {
     // this is a helper function since writing all of this out can get verbose elsewhere
     var platform = this.platforms.getFirstDead();
-    platform.reset( x, y );
+    platform.reset(x, y);
     platform.scale.x = width;
     platform.scale.y = 0.8;
     platform.body.immovable = true;
@@ -216,8 +216,8 @@ Jumper.Play.prototype = {
   },
   heroCreate: function() {
     // basic hero setup
-    this.hero = game.add.sprite( this.world.centerX, this.world.height - 50, 'libi' );
-    this.hero.anchor.set( 0.5, 1 );
+    this.hero = game.add.sprite(this.world.centerX, this.world.height - 50, 'libi');
+    this.hero.anchor.set(0.5, 1);
     this.hero.scale.y = 1.3;
 
     // track where the hero started and how much the distance has changed from that point
@@ -226,7 +226,7 @@ Jumper.Play.prototype = {
 
     // hero collision setup
     // disable all collisions except for down
-    this.physics.arcade.enable( this.hero );
+    this.physics.arcade.enable(this.hero);
     this.hero.body.gravity.y = 500;
     this.hero.body.checkCollision.up = false;
     this.hero.body.checkCollision.left = false;
@@ -252,14 +252,14 @@ Jumper.Play.prototype = {
     }
 
     // wrap world coordinated so that you can warp from left to right and right to left
-    this.world.wrap( this.hero, this.hero.width / 16, false );
+    this.world.wrap(this.hero, this.hero.width / 16, false);
 
     // track the maximum amount that the hero has travelled
-    this.hero.yChange = Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) );
+    this.hero.yChange = Math.max(this.hero.yChange, Math.abs(this.hero.y - this.hero.yOrig));
 
     // if the hero falls below the camera view, gameover
-    if( this.hero.y > this.cameraYMin + this.game.height && this.hero.alive ) {
-      this.state.start( 'Gameover' );
+    if(this.hero.y > this.cameraYMin + this.game.height && this.hero.alive) {
+      this.state.start('Gameover');
     }
   }
 }
@@ -293,8 +293,8 @@ Jumper.Gameover.prototype = {
   }
 }
 
-var game = new Phaser.Game( w, h, Phaser.CANVAS, 'game' );
-game.state.add( 'Start', Jumper.Start )
-game.state.add( 'Play', Jumper.Play );
-game.state.add( 'Gameover', Jumper.Gameover );
-game.state.start( 'Start' );
+var game = new Phaser.Game(w, h, Phaser.CANVAS, 'game');
+game.state.add('Start', Jumper.Start)
+game.state.add('Play', Jumper.Play);
+game.state.add('Gameover', Jumper.Gameover);
+game.state.start('Start');
