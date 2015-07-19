@@ -56,6 +56,7 @@ Jumper.Play.prototype = {
     this.load.image('floor', 'assets/img/floor.png' );
     this.load.image('floor_air', 'assets/img/floor_air.png' );
     this.load.image('libi', 'assets/img/libi.png' );
+    this.load.spritesheet('libi_move', 'assets/img/libi_sprite.png', 35, 40, 3);
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
     this.load.audio('die', 'assets/audio/SoundEffects/die.wav');
@@ -193,7 +194,7 @@ Jumper.Play.prototype = {
       if (i === 0) {
         this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.world.height - 160 - 110 * i, 0.5);
       } else {
-        this.platformsCreateOne( his.rnd.integerInRange(0, this.world.width - 50), (this.world.height - 110 - 110 * i) - 60, 0.5);
+        this.platformsCreateOne( this.rnd.integerInRange(0, this.world.width - 50), (this.world.height - 110 - 110 * i) - 60, 0.5);
       }
     }
   },
@@ -216,9 +217,10 @@ Jumper.Play.prototype = {
   },
   heroCreate: function() {
     // basic hero setup
-    this.hero = game.add.sprite(this.world.centerX, this.world.height - 50, 'libi');
+    this.hero = game.add.sprite(this.world.centerX, this.world.height - 50, 'libi_move');
     this.hero.anchor.set(0.5, 1);
     this.hero.scale.y = 1.3;
+    this.hero.animations.add('jump');
 
     // track where the hero started and how much the distance has changed from that point
     this.hero.yOrig = this.hero.y;
@@ -248,6 +250,7 @@ Jumper.Play.prototype = {
     }
     if( this.hero.movingUp === true && this.hero.body.touching.down ) {
       soundFx.jump.play();
+      this.hero.animations.play('jump', 6, false);
       this.hero.body.velocity.y = -370;
     }
 
