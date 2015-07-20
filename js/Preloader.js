@@ -15,8 +15,7 @@ PlatJump.Preloader.prototype = {
 		//Loading other assets
 		//Images
     this.load.image('bg_start', 'assets/img/scene/bg_start.png');
-    this.load.image('play', 'assets/img//buttons/play.png');
-    this.load.image('play_pressed', 'assets/img//buttons/play_pressed.png');
+    this.load.spritesheet('play_button', 'assets/img/buttons/play_sprite.png', 59, 52)
     this.load.image('bg', 'assets/img/scene/bg.png');
     this.load.image('floor', 'assets/img/scene/floor.png' );
     this.load.image('floor_air', 'assets/img/scene/floor_air.png' );

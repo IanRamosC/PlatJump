@@ -1,4 +1,5 @@
 PlatJump.Gameover = function (game) {};
+
 PlatJump.Gameover.prototype = {
   create: function() {
     this.stage.backgroundColor = '#0A1F38';
