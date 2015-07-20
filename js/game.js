@@ -22,7 +22,7 @@ Jumper.Start.prototype = {
   },
   create: function() {
     bg = this.add.image(0, 0, 'bg_start');
-    var playButton = game.add.button(game.world.width - 30, game.world.height - 30, 'play', this.shutdown, this);
+    var playButton = game.add.button(game.world.width - 15, game.world.height - 80, 'play', this.shutdown, this);
     playButton.input.useHandCursor = true;
     playButton.anchor.setTo(1);
     // scaling
