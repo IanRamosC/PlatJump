@@ -17,20 +17,14 @@ Jumper.Gameover = function() {};
 
 Jumper.Start.prototype = {
   preload: function() {
-    this.load.image('play', 'assets/img/play.png');
-    this.load.image('bg', 'assets/img/bg.png');
-    this.load.image('logo', 'assets/img/logo.png');
+    this.load.image('play', 'assets/img//buttons/play.png');
+    this.load.image('bg_start', 'assets/img/scene/bg_start.png');
   },
   create: function() {
-    bg = this.add.image(0, 0, 'bg');
-    var playButton = game.add.button(game.world.width/2, game.world.height/2, 'play', this.shutdown, this);
+    bg = this.add.image(0, 0, 'bg_start');
+    var playButton = game.add.button(game.world.width - 30, game.world.height - 30, 'play', this.shutdown, this);
     playButton.input.useHandCursor = true;
-    playButton.scale.setTo(0.3);
-    playButton.anchor.setTo(0.5);
-    var logo = this.add.image(game.world.width/2, 100, 'logo');
-    logo.scale.setTo(0.5);
-    logo.anchor.setTo(0.5);
-
+    playButton.anchor.setTo(1);
     // scaling
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     if(isMobile === false) {
@@ -51,12 +45,11 @@ Jumper.Play.prototype = {
   preload: function() {
 
     //IMAGES
-    this.load.image('bg', 'assets/img/bg.png');
-    this.load.image('sky_gradient', 'assets/img/sky_gradient.png');
-    this.load.image('floor', 'assets/img/floor.png' );
-    this.load.image('floor_air', 'assets/img/floor_air.png' );
-    this.load.image('libi', 'assets/img/libi.png' );
-    this.load.spritesheet('libi_move', 'assets/img/libi_sprite.png', 35, 40, 3);
+    this.load.image('bg', 'assets/img/scene/bg.png');
+    this.load.image('floor', 'assets/img/scene/floor.png' );
+    this.load.image('floor_air', 'assets/img/scene/floor_air.png' );
+    //this.load.image('libi', 'assets/img/char/libi.png' );
+    this.load.spritesheet('libi_move', 'assets/img/char/libi_sprite.png', 35, 40, 3);
     //SOUNDEFFECTS
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
     this.load.audio('die', 'assets/audio/SoundEffects/die.wav');
@@ -250,7 +243,7 @@ Jumper.Play.prototype = {
     }
     if( this.hero.movingUp === true && this.hero.body.touching.down ) {
       soundFx.jump.play();
-      this.hero.animations.play('jump', 6, false);
+      this.hero.animations.play('jump', 3, false);
       this.hero.body.velocity.y = -370;
     }
 
@@ -268,7 +261,7 @@ Jumper.Play.prototype = {
 }
 Jumper.Gameover.prototype = {
   preload: function() {
-    this.load.image('playAgain', 'assets/img/restart.png');
+    this.load.image('playAgain', 'assets/img/buttons/restart.png');
   },
   create: function() {
     this.stage.backgroundColor = '#0A1F38';
