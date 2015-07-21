@@ -15,8 +15,8 @@ PlatJump.Game.prototype = {
     this.physics.startSystem(Phaser.Physics.ARCADE);
 
     // camera and platform tracking vars
-    this.cameraYMin = 99999;
-    this.platformYMin = 99999;
+    this.cameraYMin = 999;
+    this.platformYMin = 999;
 
     // create platforms
     this.platformsCreate();
@@ -44,8 +44,7 @@ PlatJump.Game.prototype = {
     resume.visible = false;
 
     //
-    escKey = this.input.keyboard.addKey(Phaser.Keyboard.ESC);
-    escKey.onDown.add(this.pause, this);
+    this.input.keyboard.addKey(Phaser.Keyboard.ESC).onDown.add(this.pause, this);
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();

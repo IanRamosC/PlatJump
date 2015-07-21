@@ -8,8 +8,8 @@ PlatJump.Preloader.prototype = {
 	preload: function () {
 		//Loading start assets
 		this.loadingBG = this.add.sprite(0, 0, 'loading_bg');
-		this.loadingBar = this.add.sprite(w/2, h/2, 'loading_bar');
-		this.loadingBar.anchor.setTo(0.5);
+		this.loadingBar = this.add.sprite(30, h/2, 'loading_bar');
+		this.loadingBar.anchor.setTo(0, 0.5);
 		//Defining loading bar
 		this.load.setPreloadSprite(this.loadingBar);
 		//Loading other assets
