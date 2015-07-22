@@ -35,6 +35,7 @@ PlatJump.Game.prototype = {
     //creating fps debug version
     fps = game.add.text(254, 2, '', { font: '12px Arial', fill: '#0F0' });
     fps.fixedToCamera = true;
+    fps.visible = false;
 
     //setting pause text
     resume = game.add.text(w/2, h/2, 'Voltar ao Jogo', { font: '26px Arial', fill: '#FFF', stroke: '#444', strokeThickness: 6 });
@@ -43,28 +44,22 @@ PlatJump.Game.prototype = {
     resume.inputEnabled = true;
     resume.visible = false;
 
-    //
+    //adding pause
     this.input.keyboard.addKey(Phaser.Keyboard.ESC).onDown.add(this.pause, this);
+
+    this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.showFPS, this);
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
   },
   pause: function() {
-    if(game.paused === false) {
       //pause the game
-      game.paused = true;
-      resume.visible = true;
+      game.paused = !game.paused;
+      resume.visible = !resume.visible;
 
-      game.input.onDown.add(function(){
-        game.paused = false;
-        resume.visible = false;
-      }, self);
-
-
-    } else {
-      game.paused = false;
-      resume.visible = false;
-    }
+  },
+  showFPS: function() {
+    fps.visible = !fps.visible;
 
   },
   update: function() {
@@ -101,7 +96,6 @@ PlatJump.Game.prototype = {
         this.platformsCreateOne(this.rnd.integerInRange(0, this.world.width - 50), this.platformYMin - 110, 0.5);
       }
     }, this);
-
     fps.text = 'FPS: ' + game.time.fps;
   },
   shutdown: function() {
