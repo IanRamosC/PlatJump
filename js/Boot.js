@@ -21,7 +21,6 @@ var score = 0
   		}
 	    this.scale.pageAlignHorizontally = true;
 	    this.scale.pageAlignVertically = true;
-	    this.scale.setScreenSize(true);
   	},
   	preload: function () {
   		this.load.image('loading_bg', 'assets/img/scene/bg_loading.png');
