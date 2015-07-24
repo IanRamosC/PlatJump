@@ -81,11 +81,6 @@ PlatJump.Game.prototype = {
     this.physics.arcade.collide(this.hero, this.platforms);
     this.heroMove();
 
-/*    stars = game.add.group();
-
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;*/
-
     // for each plat form, find out which is the highest
     // if one goes below the camera view, then create a new one at a distance from the highest one
     // these are pooled so they are very performant
