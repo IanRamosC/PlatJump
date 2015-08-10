@@ -25,11 +25,13 @@ PlatJump.Preloader.prototype = {
     this.load.image('playAgain', 'assets/img/buttons/restart.png');
     //SoundFX
     this.load.audio('jump', 'assets/audio/SoundEffects/jump.wav');
+    this.load.audio('bg', 'assets/audio/bg_soundtrack.mp3');
 	},
 	create: function () {
 		this.loadingBar.cropEnabled = false;
 		this.ready = true;
     soundFx.jump = this.add.audio('jump');
+    soundFx.bg = this.add.audio('bg');
 		this.state.start('Menu');
 	}
 };
