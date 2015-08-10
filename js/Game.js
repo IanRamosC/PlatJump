@@ -7,8 +7,6 @@ PlatJump.Game.prototype = {
     bg = this.add.image(0, 0, 'bg');
     bg.fixedToCamera = true;
 
-    soundFx.jump = this.add.audio('jump');
-
     game.time.advancedTiming = true
 
     // physics
