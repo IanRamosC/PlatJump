@@ -23,5 +23,10 @@ PlatJump.Menu.prototype = {
 	},
 	toggleSound: function () {
 		game.sound.mute = !game.sound.mute;
+		if (game.sound.mute === true) {
+			soundButton.setFrames(2);
+		} else {
+			soundButton.setFrames(1, 0, 1);
+		}
 	}
 };
