@@ -49,7 +49,7 @@ PlatJump.Game.prototype = {
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
-    
+
     soundFx.bg.stop();
     soundFx.jump = this.add.audio('jump');
   },
@@ -107,7 +107,7 @@ PlatJump.Game.prototype = {
     if (this.hero.movingUp === false) {
       return 0;
     } else {
-      return parseInt(Math.max( this.hero.yChange, Math.abs(this.hero.y - this.hero.yOrig) - 50 )/4);
+      return parseInt(Math.max( this.hero.yChange, Math.abs(this.hero.y - this.hero.yOrig) - 50 )/3);
     }
   },
   platformsCreate: function() {
