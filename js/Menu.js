@@ -15,6 +15,7 @@ PlatJump.Menu.prototype = {
 
     // adding and initiating sound    
     soundFx.bg = this.add.audio('bg');
+    soundFx.bg.loop = true;
 		soundFx.bg.play();
 
 	},
