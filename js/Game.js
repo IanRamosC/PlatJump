@@ -49,6 +49,9 @@ PlatJump.Game.prototype = {
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
+    
+    soundFx.bg.stop();
+    soundFx.jump = this.add.audio('jump');
   },
   pause: function() {
       //pause the game

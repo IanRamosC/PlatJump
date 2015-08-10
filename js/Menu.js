@@ -12,7 +12,11 @@ PlatJump.Menu.prototype = {
     soundButton = game.add.button(15, game.world.height - 80, 'sound_button', this.toggleSound, this, 1, 0, 1);
     soundButton.input.useHandCursor = true;
     soundButton.anchor.setTo(0, 1);
+
+    // adding and initiating sound    
+    soundFx.bg = this.add.audio('bg');
 		soundFx.bg.play();
+
 	},
 	startGame: function () {
 		this.state.start('Game');

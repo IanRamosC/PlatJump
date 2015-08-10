@@ -29,9 +29,11 @@ PlatJump.Preloader.prototype = {
 	},
 	create: function () {
 		this.loadingBar.cropEnabled = false;
-		this.ready = true;
-    soundFx.jump = this.add.audio('jump');
-    soundFx.bg = this.add.audio('bg');
-		this.state.start('Menu');
+	},
+	update: function () {
+		if (this.cache.isSoundDecoded('bg') && this.ready == false) {
+			this.ready = true;
+			this.state.start('Menu');
+		}
 	}
 };
