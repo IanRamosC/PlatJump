@@ -1,5 +1,5 @@
 // Create a new Phaser game
-var game = new Phaser.Game(w, h, Phaser.CANVAS, 'game');
+var game = new Phaser.Game(w, h, Phaser.AUTO, 'game');
 
 //Adding Game States
 game.state.add('Boot', PlatJump.Boot);
